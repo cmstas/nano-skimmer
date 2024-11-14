@@ -74,7 +74,7 @@ function setup_cmssw {
 function run_skimmer {
     echo "Running skimmer on $IFILE"
     mkdir -p $OUTPUTDIR
-    python3 run_skimmer.py --out $OUTPUTDIR --cache $CACHE $IFILE
+    python3 skimmer.py --out $OUTPUTDIR --cache $CACHE $IFILE
 }
 
 function merge_skims {
