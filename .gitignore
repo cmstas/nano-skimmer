@@ -1,0 +1,7 @@
+logs/*
+package.tar.gz
+.vscode/
+*.log
+*.txt
+__pycache__/
+build/

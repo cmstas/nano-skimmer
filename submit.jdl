@@ -1,0 +1,24 @@
+universe                = Vanilla
+
+request_memory          = 2048M
+request_cpus            = 1
+
+executable              = executable.sh
+transfer_executable     = True
+transfer_input_files    = package.tar.gz
+transfer_output_files   = ""
+
+arguments               = $(FILE) $(Process)
+
+log                     = logs/$(Cluster).$(Process).log
+output                  = logs/$(Cluster).$(Process).out
+error                   = logs/$(Cluster).$(Process).err
+
+should_transfer_files   = YES
+
+x509userproxy           = /tmp/x509up_u31749
+use_x509userproxy       = True
+
++DESIRED_Sites          = "T2_US_UCSD"
+
+queue FILE from file_list.txt

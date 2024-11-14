@@ -1,0 +1,3 @@
+[submodule "nanoaod-skim/NanoAODTools"]
+	path = nanoaod-skim/NanoAODTools
+	url = https://github.com/cms-nanoAOD/nanoAOD-tools
