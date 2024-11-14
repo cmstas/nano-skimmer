@@ -16,7 +16,7 @@ if [ ! -d "nanoaod-skim" ]; then
     echo nanoaod-skim directory not found!
 fi
 
-tar -cvzf package.tar.gz nanoaod-skim/
+tar -czf package.tar.gz nanoaod-skim/
 
 echo "Submitting jobs for dataset: $INPUT_DATASET"
 
@@ -28,6 +28,11 @@ fi
 
 echo "Making list of files in dataset"
 dasgoclient --query="file dataset=$INPUT_DATASET" > file_list.txt
+
+if [ $? -ne 0 ]; then
+    echo "!!! Error in getting file list from DAS !!!"
+    exit 1
+fi
 
 echo "Sumitting jobs to condor"
 condor_submit submit.jdl

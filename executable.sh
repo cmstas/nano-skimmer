@@ -105,13 +105,14 @@ cd /srv/nanoaod-skim
 run_skimmer
 merge_skims
 
-SAMPLE_NAME=$(echo $IFILE | grep -oP awk -F'/' '{print $5}')
-GFAL_OUTPUT_DIR="${OUTPUT_XRD}/store/user/aaarora/skims/${SAMPLE_NAME}"
+ERA=$(echo $IFILE | awk -F'/' '{print $4}')
+SAMPLE_NAME=$(echo $IFILE | awk -F'/' '{print $5}')
+GFAL_OUTPUT_DIR="${OUTPUT_XRD}/store/user/aaarora/skims/${ERA}/${SAMPLE_NAME}"
 
 # Copying the output file
 COPY_SRC="file://$(pwd)/$OUTPUTDIR/output.root"
-COPY_DEST="$GFAL_OUTPUT_DIR/output_${JOB_ID}.root"
+COPY_DEST="${GFAL_OUTPUT_DIR}/output_${JOB_ID}.root"
 
-echo "Copying output file from $COPY_SRC to $COPY_DEST"
+echo "Copying output file from ${COPY_SRC} to ${COPY_DEST}"
 gfal-mkdir -p $GFAL_OUTPUT_DIR
 stageout $COPY_SRC $COPY_DEST
