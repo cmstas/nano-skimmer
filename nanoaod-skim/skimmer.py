@@ -22,18 +22,47 @@ class Skimmer(Module):
         '''
         return ele.pt > 20. and abs(ele.eta) < 2.5 and ele.cutBased >= 1
 
+    @staticmethod
+    def selectJets(jet):
+        return jet.pt > 30.
+
+    @staticmethod
+    def selectFatJets(fatjet):
+        return fatjet.mass > 10 and fatjet.msoftdrop > 10 and fatjet.pt > 200
+
     def analyze(self, event):
         """process event, return True (go to next module) or False (fail, go to next event)"""
         muons = Collection(event, 'Muon')
+        electrons = Collection(event, 'Electron')
+        
         muons = [muon for muon in muons if self.selectMuon(muon)]
         muons.sort(key=lambda x: x.pt, reverse=True)
 
-        electrons = Collection(event, 'Electron')
         electrons = [electron for electron in electrons if self.selectElectron(electron)]
         electrons = [electron for electron in electrons if not any(deltaR(electron, muon) < 0.5 for muon in muons)]
         electrons.sort(key=lambda x: x.pt, reverse=True)
 
-        return len(muons) + len(electrons) >= 1
+        leptons = muons + electrons
+
+        if len(leptons) < 1:
+            return False
+
+        jets = Collection(event, 'Jet')
+        fatjets = Collection(event, 'FatJet')
+
+        jets = [jet for jet in jets if self.selectJets(jet)]
+        jets = [jet for jet in jets if not any(deltaR(jet, lepton) < 0.4 for lepton in leptons)]
+        jets.sort(key=lambda x: x.pt, reverse=True)
+
+        fatjets = [fatjet for fatjet in fatjets if self.selectFatJets(fatjet)]
+        fatjets = [fatjet for fatjet in fatjets if not any(deltaR(fatjet, lepton) < 0.8 for lepton in leptons)]
+        fatjets = [fatjet for fatjet in fatjets if not any(deltaR(fatjet, jet) < 0.8 for jet in jets)]
+
+        if (len(jets) >= 2 and len(fatjets) >= 1) or (len(jets) >= 4):
+            return True
+        else:
+            return False
+
 
 if __name__ == "__main__":
     parser = ArgumentParser(description='Run the NanoAOD skimmer.')

@@ -1,7 +1,7 @@
 universe                = Vanilla
 
-request_memory          = 2048M
-request_cpus            = 1
+request_memory          = 4G
+request_cpus            = 2
 
 executable              = executable.sh
 transfer_executable     = True
@@ -20,5 +20,6 @@ x509userproxy           = /tmp/x509up_u31749
 use_x509userproxy       = True
 
 +DESIRED_Sites          = "T2_US_UCSD"
++JobFlavour             = "longlunch"
 
 queue FILE from file_list.txt

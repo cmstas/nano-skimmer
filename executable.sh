@@ -4,7 +4,7 @@
 OUTPUTDIR="output"
 CACHE="root://xcache-redirector.t2.ucsd.edu:2042/"
 OUTPUT_XRD="root://redirector.t2.ucsd.edu:1095/"
-CMSSWVERSION='CMSSW_14_0_9'
+CMSSWVERSION='CMSSW_14_1_4'
 MAX_RETRIES=10
 SLEEP_DURATION="1m"
 
@@ -103,6 +103,12 @@ source standalone/env_standalone.sh
 cd /srv/nanoaod-skim
 
 run_skimmer
+
+if [ $? -ne 0 ]; then
+    echo "Skimmer failed; retrying one more time..."
+    run_skimmer
+fi
+
 merge_skims
 
 ERA=$(echo $IFILE | awk -F'/' '{print $4}')
