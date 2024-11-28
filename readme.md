@@ -5,10 +5,7 @@ This project contains scripts to run a NanoAOD skimmer using HTCondor. The skimm
 ## Requirements
 
 - CMSSW environment (tested with CMSSW_14_1_4)
-- Python 3
-- ROOT
 - HTCondor
-- XRootD client
 
 ## Setup
 
