@@ -1,9 +1,9 @@
 #!/bin/bash
 
-INPUT_DATASET=$1
+INPUT_DATASETS=$1
 
-if [ -z "$INPUT_DATASET" ]; then
-    echo "Usage: ./runSkimmer.sh <input_dataset>"
+if [ -z "$INPUT_DATASETS" ]; then
+    echo "Usage: ./runSkimmer.sh <input_datasets>"
     exit 1
 fi
 
@@ -18,7 +18,7 @@ fi
 
 tar -czf package.tar.gz nanoaod-skim/
 
-echo "Submitting jobs for dataset: $INPUT_DATASET"
+echo "Submitting jobs for datasets: $INPUT_DATASETS"
 
 # if CMSSW is not set, set it
 if [ -z "$CMSSW_VERSION" ]; then
@@ -26,8 +26,11 @@ if [ -z "$CMSSW_VERSION" ]; then
     exit 1
 fi
 
-echo "Making list of files in dataset"
-dasgoclient --query="file dataset=$INPUT_DATASET" > file_list.txt
+echo "Making list of files in datasets"
+rm -f file_list.txt; touch file_list.txt
+for dataset in $(echo $INPUT_DATASETS | tr "," "\n"); do
+    dasgoclient --query="file dataset=$dataset" >> file_list.txt
+done
 
 if [ $? -ne 0 ]; then
     echo "!!! Error in getting file list from DAS !!!"
