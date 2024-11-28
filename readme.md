@@ -1,4 +1,4 @@
-# NanoAOD Skimmer# NanoAOD Skimmer
+# NanoAOD Skimmer
 
 This project contains scripts to run a NanoAOD skimmer using HTCondor. The skimmer selects events based on specific criteria and produces output files with the selected events.
 
