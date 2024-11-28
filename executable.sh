@@ -3,7 +3,7 @@
 # Constants
 OUTPUTDIR="output"
 CACHE="root://xcache-redirector.t2.ucsd.edu:2042/"
-OUTPUT_XRD="root://redirector.t2.ucsd.edu:1095/"
+OUTPUT_XRD="root://redirector.t2.ucsd.edu:1095//store/user/aaarora/skims"
 CMSSWVERSION='CMSSW_14_1_4'
 MAX_RETRIES=10
 SLEEP_DURATION="1m"
@@ -113,7 +113,7 @@ merge_skims
 
 ERA=$(echo $IFILE | awk -F'/' '{print $4}')
 SAMPLE_NAME=$(echo $IFILE | awk -F'/' '{print $5}')
-GFAL_OUTPUT_DIR="${OUTPUT_XRD}/store/user/aaarora/skims/${ERA}/${SAMPLE_NAME}"
+GFAL_OUTPUT_DIR="${OUTPUT_XRD}/${ERA}/${SAMPLE_NAME}"
 
 # Copying the output file
 COPY_SRC="file://$(pwd)/$OUTPUTDIR/output.root"
