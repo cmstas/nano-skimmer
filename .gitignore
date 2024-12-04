@@ -3,5 +3,6 @@ package.tar.gz
 .vscode/
 *.log
 *.txt
+!keep_and_drop_skim.txt
 __pycache__/
 build/

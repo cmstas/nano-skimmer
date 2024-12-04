@@ -29,7 +29,11 @@ fi
 echo "Making list of files in datasets"
 rm -f file_list.txt; touch file_list.txt
 for dataset in $(echo $INPUT_DATASETS | tr "," "\n"); do
-    dasgoclient --query="file dataset=$dataset" >> file_list.txt
+    timeout 30 dasgoclient --query="file dataset=$dataset" >> file_list.txt
+    if [ $? -ne 0 ]; then
+        echo "Getting file list from DAS timed out!, retrying..."
+        timeout 30 dasgoclient --query="file dataset=$dataset" >> file_list.txt
+    fi
 done
 
 if [ $? -ne 0 ]; then
